@@ -285,7 +285,17 @@ namespace Inlamning_3_ra_kod
          */
         public void GetVar()
         {
-           
+           switch (letPress)
+            {
+                case "A": RollSetX(letNum[0]); break;
+                case "B": RollSetX(letNum[1]); break;
+                case "C": RollSetX(letNum[2]); break;
+                case "D": RollSetX(letNum[3]); break;
+                case "E": RollSetX(letNum[4]); break;
+                case "F": RollSetX(letNum[5]); break;
+                case "G": RollSetX(letNum[6]); break;
+                case "H": RollSetX(letNum[7]); break;
+            }
         }
     }
 }
