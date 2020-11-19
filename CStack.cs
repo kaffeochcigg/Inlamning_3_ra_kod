@@ -23,6 +23,7 @@ namespace Inlamning_3_ra_kod
         public double X, Y, Z, T;
         public string entry;
         public string letPress;
+        public double[] letNum = new double [8];
         /* CONSTRUCTOR: CStack
          * PURPOSE: create a new stack and init X, Y, Z, T and the text entry
          * PARAMETERS: --
@@ -59,7 +60,8 @@ namespace Inlamning_3_ra_kod
          */
         public string VarString()
         {
-            return "insertme";
+            return $"{letNum[0]}\n{letNum[1]}\n{letNum[2]}\n{letNum[3]}\n{letNum[4]}" +
+                $"\n{letNum[5]}\n{letNum[6]}\n{letNum[7]}\n{letPress}";
         }
         /* METHOD: SetX
          * PURPOSE: set X with overwrite
@@ -253,7 +255,6 @@ namespace Inlamning_3_ra_kod
         public void SetAddress(string name)
         {
             letPress = name;
-            MessageBox.Show(letPress);
         }
         /* METHOD: SetVar
          * PURPOSE: 
@@ -262,8 +263,19 @@ namespace Inlamning_3_ra_kod
          * FEATURES: NOT YET IMPLEMENTED
          */
         public void SetVar()
-        {          
-            
+        {
+            switch (letPress)
+            {
+                case "A": letNum[0] = X; break;
+                case "B": letNum[1] = X; break;
+                case "C": letNum[2] = X; break;
+                case "D": letNum[3] = X; break;
+                case "E": letNum[4] = X; break;
+                case "F": letNum[5] = X; break;
+                case "G": letNum[6] = X; break;
+                case "H": letNum[7] = X; break;
+            }
+
         }
         /* METHOD: GetVar
          * PURPOSE: 
