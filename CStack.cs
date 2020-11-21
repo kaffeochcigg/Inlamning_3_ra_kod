@@ -25,17 +25,15 @@ namespace Inlamning_3_ra_kod
         public string entry;
         public string letPress;
         public double[] letNum = new double[8];
-        /* Hard coded filepath
-         * <<ADD YOUR OWN>>
-         */
-        public string filePath = @"molkfreecalc.clc";
+        // Hard coded filepath <<ADD YOUR OWN>>
+        public string filePath = @"C:\Yourpath\molkfreecalc.clc";
         /* CONSTRUCTOR: CStack
-         * PURPOSE: create a new stack and init X, Y, Z, T and the text entry
+         * PURPOSE: create a new stack and init X, Y, Z, T and the text entry.
+         * Also looks for a file with saved parameters for X, Y, Z, T and for A-H.
          * PARAMETERS: --
          */
         public CStack()
         {
-            X = Y = Z = T = 0;
             entry = "";
             if (File.Exists(filePath))
             {
@@ -62,10 +60,13 @@ namespace Inlamning_3_ra_kod
                     }
                 }
             }
-
+            else
+            {
+                X = Y = Z = T = 0;
+            }
         }
         /* METHOD: Exit
-         * PURPOSE: called on exit, saves file if filepath exists
+         * PURPOSE: called on exit, saves to file if filepath exists
          * PARAMETERS: --
          * RETURNS: --
          */
@@ -73,10 +74,10 @@ namespace Inlamning_3_ra_kod
         {
             if (File.Exists(filePath))
             {
-                string[] writeToFile = new string[] { $"T: {T}", $"Z: {Z}", $"Y: {Y}", $"X: {X}", $"A: {letNum[0]}",
-                $"B: {letNum[1]}", $"C: {letNum[2]}", $"D: {letNum[3]}", $"E: {letNum[4]}",
-                $"F: {letNum[5]}", $"G: {letNum[6]}", $"H: {letNum[7]}" };
-                File.WriteAllLines(filePath, writeToFile);
+                string[] textToFile = new string[] { $"T: {T}", $"Z: {Z}", $"Y: {Y}", $"X: {X}",
+                $"A: {letNum[0]}", $"B: {letNum[1]}", $"C: {letNum[2]}", $"D: {letNum[3]}",
+                $"E: {letNum[4]}", $"F: {letNum[5]}", $"G: {letNum[6]}", $"H: {letNum[7]}" };
+                File.WriteAllLines(filePath, textToFile);
             }
         }
         /* METHOD: StackString
@@ -92,7 +93,7 @@ namespace Inlamning_3_ra_kod
         /* METHOD: VarString
          * PURPOSE: construct a string to write out in a variable list
          * PARAMETERS: --
-         * RETURNS: NOT YET IMPLEMENTED
+         * RETURNS: the values stored in A-H (letNum[1-7])
          */
         public string VarString()
         {
@@ -283,20 +284,19 @@ namespace Inlamning_3_ra_kod
             T = Z; Z = Y; Y = X; X = newX;
         }
         /* METHOD: SetAddress
-         * PURPOSE: 
-         * PARAMETERS: string name - variable name
+         * PURPOSE: save button press in variable letPress
+         * PARAMETERS: string name - name of letter to put in letPress
          * RETURNS: --
-         * FEATURES: NOT YET IMPLEMENTED
+         * FEATURES: latest button press is saved
          */
         public void SetAddress(string name)
         {
             letPress = name;
         }
         /* METHOD: SetVar
-         * PURPOSE: 
+         * PURPOSE: saves the X variable in A-H(letNum[0-7]) based on latest buttonpress
          * PARAMETERS: --
          * RETURNS: --
-         * FEATURES: NOT YET IMPLEMENTED
          */
         public void SetVar()
         {
@@ -314,10 +314,9 @@ namespace Inlamning_3_ra_kod
 
         }
         /* METHOD: GetVar
-         * PURPOSE: 
+         * PURPOSE: sets the value of X to the latest pressed button when using the recall button
          * PARAMETERS: --
          * RETURNS: --
-         * FEATURES: NOT YET IMPLEMENTED
          */
         public void GetVar()
         {
