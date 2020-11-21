@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.IO;
 
 namespace Inlamning_3_ra_kod
 {
@@ -23,7 +24,11 @@ namespace Inlamning_3_ra_kod
         public double X, Y, Z, T;
         public string entry;
         public string letPress;
-        public double[] letNum = new double [8];
+        public double[] letNum = new double[8];
+        /* Hard coded filepath
+         * <<ADD YOUR OWN>>
+         */
+        public string filePath = @"molkfreecalc.clc";
         /* CONSTRUCTOR: CStack
          * PURPOSE: create a new stack and init X, Y, Z, T and the text entry
          * PARAMETERS: --
@@ -32,16 +37,47 @@ namespace Inlamning_3_ra_kod
         {
             X = Y = Z = T = 0;
             entry = "";
+            if (File.Exists(filePath))
+            {
+                string[] newLines = File.ReadAllLines(filePath);
+                foreach (string word in newLines)
+                {
+                    string[] vars = word.Split(':');
+                    switch (vars[0])
+                    {
+                        case "T": T = double.Parse(vars[1]); break;
+                        case "Z": Z = double.Parse(vars[1]); break;
+                        case "Y": Y = double.Parse(vars[1]); break;
+                        case "X": X = double.Parse(vars[1]); break;
+                        case "A": letNum[0] = double.Parse(vars[1]); break;
+                        case "B": letNum[1] = double.Parse(vars[1]); break;
+                        case "C": letNum[2] = double.Parse(vars[1]); break;
+                        case "D": letNum[3] = double.Parse(vars[1]); break;
+                        case "E": letNum[4] = double.Parse(vars[1]); break;
+                        case "F": letNum[5] = double.Parse(vars[1]); break;
+                        case "G": letNum[6] = double.Parse(vars[1]); break;
+                        case "H": letNum[7] = double.Parse(vars[1]); break;
+                        default:
+                            break;
+                    }
+                }
+            }
 
         }
         /* METHOD: Exit
-         * PURPOSE: called on exit, prepared for saving
+         * PURPOSE: called on exit, saves file if filepath exists
          * PARAMETERS: --
          * RETURNS: --
          */
         public void Exit()
         {
-
+            if (File.Exists(filePath))
+            {
+                string[] writeToFile = new string[] { $"T: {T}", $"Z: {Z}", $"Y: {Y}", $"X: {X}", $"A: {letNum[0]}",
+                $"B: {letNum[1]}", $"C: {letNum[2]}", $"D: {letNum[3]}", $"E: {letNum[4]}",
+                $"F: {letNum[5]}", $"G: {letNum[6]}", $"H: {letNum[7]}" };
+                File.WriteAllLines(filePath, writeToFile);
+            }
         }
         /* METHOD: StackString
          * PURPOSE: construct a string to write out in a stack view
@@ -285,7 +321,7 @@ namespace Inlamning_3_ra_kod
          */
         public void GetVar()
         {
-           switch (letPress)
+            switch (letPress)
             {
                 case "A": RollSetX(letNum[0]); break;
                 case "B": RollSetX(letNum[1]); break;
